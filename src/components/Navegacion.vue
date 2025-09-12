@@ -4,7 +4,7 @@
 
 <template>
     <nav class="navegacion w-[100vw] h-[10vh] bg-blue-500 flex flex-row">
-        <router-link to="notificaciones" class="hover:bg-blue-800 px-2 w-[5%] bg-blue-700 rounded m-0.5 text-white border-2 border-gray-300">Notificaciones
+        <router-link to="notificaciones" class=" hover:bg-blue-800 px-2 w-[5%] bg-blue-700 rounded m-0.5 text-white border-2 border-gray-300">Notificaciones
             
         </router-link>
         <div class="w-[70%] h-[100%]"></div>

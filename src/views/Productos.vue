@@ -1,48 +1,175 @@
 <script>
 import { RouterLink } from 'vue-router';
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 export default {
   setup() {
     const productos = ref([]);
+    const mostrarFormulario = ref(false);
+
+    // Datos del nuevo producto
+    const nuevoProducto = ref({
+      nombre: '',
+      talle: '',
+      tipo: '',
+      imagen: null,
+      imagenUrl: ''
+    });
+
+    const abrirFormulario = () => {
+      mostrarFormulario.value = true;
+      // Resetear campos
+      nuevoProducto.value = {
+        nombre: '',
+        talle: '',
+        tipo: '',
+        imagen: null,
+        imagenUrl: ''
+      };
+    };
+
+    const manejarImagen = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        nuevoProducto.value.imagen = file;
+        // Crear URL para mostrar preview
+        nuevoProducto.value.imagenUrl = URL.createObjectURL(file);
+      }
+    };
 
     const agregarProducto = () => {
-      productos.value.push('Nuevo producto');
+      if (
+        nuevoProducto.value.nombre &&
+        nuevoProducto.value.talle &&
+        nuevoProducto.value.tipo
+      ) {
+        // Agregar copia del producto para evitar referencias
+        productos.value.push({ ...nuevoProducto.value });
+        mostrarFormulario.value = false;
+      } else {
+        alert('Por favor completa todos los campos');
+      }
+    };
+
+    const cancelar = () => {
+      mostrarFormulario.value = false;
     };
 
     return {
       productos,
-      agregarProducto
+      mostrarFormulario,
+      nuevoProducto,
+      abrirFormulario,
+      manejarImagen,
+      agregarProducto,
+      cancelar
     };
   }
-}; 
+};
 </script>
 
 <template>
-    <div class="
-    h-[90vh]
-    w[100vw]
-    flex
-    items-end
-    justify-end   
-    ">
-        <button class="
+  <div
+    class="
+      h-[80vh]
+      w-[40vw]
+      flex
+      flex-col
+      items-end
+      justify-start
+      p-4
+    "
+  >
+    <button
+      class="
         rounded-2xl
-        aspect-square 
-        h-[6vh] 
-        text-center 
-        border-blue-900 
-        text-5xl 
+        aspect-square
+        h-[6vh]
+        text-center
+        border-blue-900
+        text-5xl
         border-2
-        
-        " 
-        
-        @click="agregarProducto">+</button>
-            <ul>
-                <li v-for="(producto, index) in productos" :key="index">
-                {{ producto }}
-                </li>
-            </ul>
+        mb-4
+      "
+      @click="abrirFormulario"
+    >
+      +
+    </button>
+
+    <!-- Formulario para agregar producto -->
+    <div v-if="mostrarFormulario" class="mb-4 border p-4 rounded shadow w-full">
+      <h3 class="mb-2 font-bold text-lg">Agregar nuevo producto</h3>
+      <div class="mb-2">
+        <label class="block mb-1">Nombre:</label>
+        <input
+          v-model="nuevoProducto.nombre"
+          type="text"
+          class="border rounded w-full p-1"
+        />
+      </div>
+      <div class="mb-2">
+        <label class="block mb-1">Talle:</label>
+        <input
+          v-model="nuevoProducto.talle"
+          type="text"
+          class="border rounded w-full p-1"
+        />
+      </div>
+      <div class="mb-2">
+        <label class="block mb-1">Tipo:</label>
+        <input
+          v-model="nuevoProducto.tipo"
+          type="text"
+          class="border rounded w-full p-1"
+        />
+      </div>
+      <div class="mb-2">
+        <label class="block mb-1">Imagen:</label>
+        <input type="file" @change="manejarImagen" accept="image/*" />
+        <div v-if="nuevoProducto.imagenUrl" class="mt-2">
+          <img
+            :src="nuevoProducto.imagenUrl"
+            alt="Preview imagen"
+            class="max-h-24"
+          />
+        </div>
+      </div>
+      <div class="flex gap-2 mt-4">
+        <button
+          class="bg-blue-600 text-white px-4 py-2 rounded"
+          @click="agregarProducto"
+        >
+          Agregar
+        </button>
+        <button
+          class="bg-gray-400 text-white px-4 py-2 rounded"
+          @click="cancelar"
+        >
+          Cancelar
+        </button>
+      </div>
     </div>
-    
+
+    <!-- Lista de productos -->
+    <ul class="w-full">
+      <li
+        v-for="(producto, index) in productos"
+        :key="index"
+        class="border-b py-2 flex items-center gap-4"
+      >
+        <div v-if="producto.imagenUrl">
+          <img
+            :src="producto.imagenUrl"
+            alt="Imagen producto"
+            class="max-h-16"
+          />
+        </div>
+        <div>
+          <p><strong>Nombre:</strong> {{ producto.nombre }}</p>
+          <p><strong>Talle:</strong> {{ producto.talle }}</p>
+          <p><strong>Tipo:</strong> {{ producto.tipo }}</p>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>

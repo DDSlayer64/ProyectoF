@@ -82,19 +82,20 @@ export default {
   >
     <button
       class="
+        bg-black
+        text-white
+        fixed-bottom-6
+        right-6
+        w-14
+        h-14
         flex
         items-center
         justify-center
-        rounded-2xl
-        aspect-square
-        h-[6vh]
-        border-blue-900
-        text-5xl
-        border-2
-        mb-4
+        rounded-full 
+        shadow-lg
+        text-2xl
       "
-      @click="abrirFormulario"
-    >
+      @click="abrirFormulario">
       +
     </button>
 
@@ -143,7 +144,7 @@ export default {
           Agregar
         </button>
         <button
-          class="bg-gray-400 text-white px-4 py-2 rounded"
+          class="bg-blue-900 hover:bg-gray-400 text-white px-4 py-2 rounded"
           @click="cancelar"
         >
           Cancelar

@@ -69,14 +69,13 @@ function cerrarModal() {
 
     <button
       @click="mostrarModal = true"
-      class="fixed bottom-6 right-6 bg-black text-white w-14 h-14 flex items-center justify-center text-2xl rounded-full shadow-lg hover:bg-gray-800">
+      class="fixed bottom-6 right-6 bg-blue-800 text-white w-14 h-14 flex items-center justify-center text-2xl rounded-full shadow-lg hover:bg-gray-800">
       +
     </button>
 
     <div
       v-if="mostrarModal"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
-    >
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" >
       <div class="bg-white p-6 rounded-lg shadow-lg w-96">
         <h2 class="text-xl font-bold mb-4">Agregar producto</h2>
 

@@ -82,9 +82,10 @@ export default {
   >
     <button
       class="
-        bg-black
+        bg-blue-800
         text-white
-        fixed-bottom-6
+        fixed
+        bottom-6
         right-6
         w-14
         h-14

@@ -72,7 +72,7 @@ export default {
   <div
     class="
       h-[80vh]
-      w-[40vw]
+      w-[95vw]
       flex
       flex-col
       items-end
@@ -82,10 +82,12 @@ export default {
   >
     <button
       class="
+        flex
+        items-center
+        justify-center
         rounded-2xl
         aspect-square
         h-[6vh]
-        text-center
         border-blue-900
         text-5xl
         border-2
@@ -96,7 +98,6 @@ export default {
       +
     </button>
 
-    <!-- Formulario para agregar producto -->
     <div v-if="mostrarFormulario" class="mb-4 border p-4 rounded shadow w-full">
       <h3 class="mb-2 font-bold text-lg">Agregar nuevo producto</h3>
       <div class="mb-2">
@@ -150,7 +151,6 @@ export default {
       </div>
     </div>
 
-    <!-- Lista de productos -->
     <ul class="w-full">
       <li
         v-for="(producto, index) in productos"

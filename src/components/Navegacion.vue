@@ -1,26 +1,107 @@
 <script setup>
     import { RouterLink } from 'vue-router';
+    import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+    import { faBell, faNoteSticky, faUser } from '@fortawesome/free-regular-svg-icons';
+import { faBoxOpen, faChartBar, faChartLine, faNotesMedical, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 </script>
 
 <template>
     <nav class="navegacion w-[100vw] h-[10vh] bg-blue-500 flex flex-row">
-        <router-link to="notificaciones" class=" hover:bg-blue-800 px-2 w-[5%] bg-blue-700 rounded m-0.5 text-white border-2 border-gray-300">Notificaciones
+        <router-link to="notificaciones" class="
+                                                flex 
+                                                justify-center 
+                                                items-center
+                                                text-2xl
+                                                hover:bg-blue-800
+                                                px-2 w-[5%]
+                                                bg-blue-700
+                                                rounded m-0.5
+                                                text-white 
+                                                border-2 
+                                                border-gray-300
+                                                "><FontAwesomeIcon :icon="faBell" />
+
             
         </router-link>
         <div class="w-[70%] h-[100%]"></div>
-        <router-link to="notas" class="hover:bg-blue-800 px-2 w-[5%] bg-blue-700 m-0.5 text-white border-2 border-gray-300">Notas
+        <router-link to="notas" class="
+                                    flex
+                                    justify-center
+                                    items-center
+                                    text-2xl
+                                    hover:bg-blue-800
+                                    px-2
+                                    w-[5%] 
+                                    bg-blue-700 
+                                    m-0.5 
+                                    text-white 
+                                    border-2 
+                                    border-gray-300
+                                    "><FontAwesomeIcon :icon="faNotesMedical" />
             
         </router-link>
-        <router-link to="productos" class="hover:bg-blue-800 px-2 w-[5%] bg-blue-700 m-0.5 text-white border-2 border-gray-300">Productos
+        <router-link to="productos" class="
+                                        flex
+                                        justify-center
+                                        items-center
+                                        text-2xl
+                                        hover:bg-blue-800 
+                                        px-2 
+                                        w-[5%] 
+                                        bg-blue-700 
+                                        m-0.5 
+                                        text-white 
+                                        border-2 
+                                        border-gray-300
+                                        "><FontAwesomeIcon :icon="faBoxOpen" />
 
         </router-link>
-        <router-link to="ventas" class="hover:bg-blue-800 px-2 w-[5%] bg-blue-700 m-0.5 text-white border-2 border-gray-300">Ventas
+        <router-link to="ventas" class="
+                                        flex
+                                        justify-center
+                                        items-center
+                                        text-2xl
+                                        hover:bg-blue-800 
+                                        px-2 
+                                        w-[5%] 
+                                        bg-blue-700 
+                                        m-0.5 
+                                        text-white 
+                                        border-2 
+                                        border-gray-300
+                                        "><FontAwesomeIcon :icon="faShoppingCart" />
 
         </router-link>
-        <router-link to="balance" class="hover:bg-blue-800 px-2 w-[5%] bg-blue-700 m-0.5 text-white border-2 border-gray-300">Balance 
+        <router-link to="balance" class="
+                                        flex
+                                        justify-center
+                                        items-center
+                                        text-2xl
+                                        hover:bg-blue-800 
+                                        px-2 
+                                        w-[5%] 
+                                        bg-blue-700 
+                                        m-0.5 
+                                        text-white 
+                                        border-2 
+                                        border-gray-300
+                                        "><FontAwesomeIcon :icon="faChartLine" />
 
         </router-link>
-        <router-link to="usuario" class="hover:bg-blue-800 px-2 w-[5%] bg-blue-700 m-0.5 text-white border-2 border-gray-300">Usuario
+        <router-link to="usuario" class="
+                                        flex
+                                        justify-center
+                                        items-center
+                                        text-2xl
+                                        hover:bg-blue-800 
+                                        px-2 
+                                        w-[5%] 
+                                        bg-blue-700 
+                                        m-0.5 
+                                        text-white 
+                                        border-2 
+                                        border-gray-300
+                                        "><FontAwesomeIcon :icon="faUser" />
 
         </router-link>
         

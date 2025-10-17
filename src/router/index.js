@@ -2,7 +2,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 import Inicio from '../views/Inicio.vue'
 import Segunda from '../views/Segunda.vue'
 import Usuario from '../views/Usuario.vue'
-import Balance from '../views/Balance.vue'
+import Ganancias from '../views/Ganancias.vue'
 import Notificaciones from '../views/Notificaciones.vue'
 import Notas from '../views/Notas.vue'
 import Ventas from '../views/Ventas.vue'
@@ -30,9 +30,9 @@ const router = createRouter(
                 name: 'usuario'
             },
             {
-                path:"/balance",
-                component: Balance,
-                name: 'balance'
+                path:"/ganancias",
+                component: Ganancias,
+                name: 'ganancias'
             },
             {
                 path:"/notas",

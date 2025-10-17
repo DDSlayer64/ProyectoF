@@ -72,7 +72,7 @@ import { faBoxOpen, faChartBar, faChartLine, faNotesMedical, faShoppingCart } fr
                                         "><FontAwesomeIcon :icon="faShoppingCart" />
 
         </router-link>
-        <router-link to="balance" class="
+        <router-link to="ganancias" class="
                                         flex
                                         justify-center
                                         items-center

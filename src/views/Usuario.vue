@@ -4,8 +4,8 @@ import Inicio from './Inicio.vue';
 </script>
 
 <template>
-    <div class="todo w-screen h-[90vh] flex flex-col justify-start items-center pt-15">
-        <div class="cajas bg-blue-500 w-[85vw] h-[80vh] flex items-center ">
+    <div class="todo w-screen h-[90vh] flex flex-col justify-start items-center pt-10">
+        <div class="cajas bg-blue-500 w-[85vw] h-[80vh] flex items-center rounded">
             
             <div class="Foto w-[50%] h-[100] flex justify-center">
                 <div class="w-[20vw] bg-white rounded-full aspect-square"></div>

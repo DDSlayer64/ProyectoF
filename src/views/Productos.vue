@@ -6,23 +6,28 @@ export default {
   setup() {
     const productos = ref([]);
     const mostrarFormulario = ref(false);
-
-    // Datos del nuevo producto
     const nuevoProducto = ref({
       nombre: '',
       talle: '',
       tipo: '',
+      precioInicial: '',
+      precioVenta: '',
+      proveedor: '',
+      descripcion: '',
       imagen: null,
       imagenUrl: ''
     });
 
     const abrirFormulario = () => {
       mostrarFormulario.value = true;
-      // Resetear campos
       nuevoProducto.value = {
         nombre: '',
         talle: '',
         tipo: '',
+        precioInicial: '',
+        precioVenta: '',
+        proveedor: '',
+        descripcion: '',
         imagen: null,
         imagenUrl: ''
       };
@@ -32,7 +37,6 @@ export default {
       const file = event.target.files[0];
       if (file) {
         nuevoProducto.value.imagen = file;
-        // Crear URL para mostrar preview
         nuevoProducto.value.imagenUrl = URL.createObjectURL(file);
       }
     };
@@ -41,7 +45,11 @@ export default {
       if (
         nuevoProducto.value.nombre &&
         nuevoProducto.value.talle &&
-        nuevoProducto.value.tipo
+        nuevoProducto.value.tipo &&
+        nuevoProducto.value.precioInicial &&
+        nuevoProducto.value.precioVenta &&
+        nuevoProducto.value.proveedor &&
+        nuevoProducto.value.descripcion
       ) {
         // Agregar copia del producto para evitar referencias
         productos.value.push({ ...nuevoProducto.value });
@@ -122,6 +130,38 @@ export default {
         <label class="block mb-1">Tipo:</label>
         <input
           v-model="nuevoProducto.tipo"
+          type="text"
+          class="border rounded w-full p-1"
+        />
+      </div>
+            <div class="mb-2">
+        <label class="block mb-1">Precio Inicial:</label>
+        <input
+          v-model="nuevoProducto.precioInicial"
+          type="text"
+          class="border rounded w-full p-1"
+        />
+      </div>
+            <div class="mb-2">
+        <label class="block mb-1">Precio de Venta:</label>
+        <input
+          v-model="nuevoProducto.precioVenta"
+          type="text"
+          class="border rounded w-full p-1"
+        />
+      </div>
+            <div class="mb-2">
+        <label class="block mb-1">Proveedor:</label>
+        <input
+          v-model="nuevoProducto.proveedor"
+          type="text"
+          class="border rounded w-full p-1"
+        />
+      </div>
+            <div class="mb-2">
+        <label class="block mb-1">Descripción:</label>
+        <input
+          v-model="nuevoProducto.descripcion"
           type="text"
           class="border rounded w-full p-1"
         />

@@ -91,17 +91,18 @@ export default {
           return;
         }
 
-        await instanciaAxios.post('/ventas', {
-          producto_id: productoSeleccionado.value.id, // 👈 ID del producto
-          cantidad: nuevaVenta.value.cantidad,
-          fecha: nuevaVenta.value.fecha
-        });
+      await instanciaAxios.post('/ventas', {
+      producto_id: productoSeleccionado.id,
+      cantidad: cantidad,
+      fecha: new Date().toISOString().split('T')[0] 
+    })
 
-        alert('✅ Venta registrada correctamente');
+
+        alert('Venta registrada correctamente');
         cerrarModalVenta();
       } catch (error) {
         console.error(error);
-        alert('❌ Error al registrar la venta');
+        alert('Error al registrar la venta');
       }
     };
 

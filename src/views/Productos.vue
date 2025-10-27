@@ -1,217 +1,193 @@
-<script setup>
-import { RouterLink } from 'vue-router'
-import { ref, onMounted } from 'vue'
-import { useProductosStore } from '@/stores/useProductosStore'
-
-const store = useProductosStore()
-
-const mostrarFormulario = ref(false)
-
-const nuevoProducto = ref({
-  nombre: '',
-  talle: '',
-  tipo: '',
-  precioInicial: '',
-  precioVenta: '',
-  proveedor: '',
-  descripcion: '',
-  imagen: null,
-  imagenUrl: ''
-})
-
-onMounted(() => {
-  store.cargarProductos()
-})
-
-const abrirFormulario = () => {
-  mostrarFormulario.value = true
-  nuevoProducto.value = {
-    nombre: '',
-    talle: '',
-    tipo: '',
-    precioInicial: '',
-    precioVenta: '',
-    proveedor: '',
-    descripcion: '',
-    imagen: null,
-    imagenUrl: ''
-  }
-}
-
-const manejarImagen = (event) => {
-  const file = event.target.files[0]
-  if (file) {
-    nuevoProducto.value.imagen = file
-    nuevoProducto.value.imagenUrl = URL.createObjectURL(file)
-  }
-}
-
-const agregarProducto = async () => {
-  if (
-    nuevoProducto.value.nombre &&
-    nuevoProducto.value.talle &&
-    nuevoProducto.value.tipo &&
-    nuevoProducto.value.precioInicial &&
-    nuevoProducto.value.precioVenta &&
-    nuevoProducto.value.proveedor &&
-    nuevoProducto.value.descripcion
-  ) {
-    await store.registrarProducto(nuevoProducto.value)
-    mostrarFormulario.value = false
-  } else {
-    alert('Por favor completa todos los campos')
-  }
-}
-
-const cancelar = () => {
-  mostrarFormulario.value = false
-}
-</script>
-
 <template>
-  <div
-    class="
-      h-[80vh]
-      w-[95vw]
-      flex
-      flex-col
-      items-end
-      justify-start
-      p-4
-    "
-  >
+  <div class="h-[80vh] w-[95vw] flex flex-col items-end justify-start p-4">
+
+    <!-- 🚨 Cartel si no hay productos -->
+    <div
+      v-if="productos.length === 0"
+      class="text-center mt-8 bg-yellow-200 border border-yellow-400 text-yellow-800 p-4 rounded-lg w-full"
+    >
+      Todavía no tienes productos añadidos...
+    </div>
+
+    <!-- 📦 Lista de productos -->
+    <ul v-else class="w-full grid grid-cols-3 gap-4 mt-4">
+      <li
+        v-for="(producto, index) in productos"
+        :key="index"
+        class="border rounded-lg p-4 bg-white shadow flex flex-col justify-between"
+      >
+        <div>
+          <p><strong>Nombre:</strong> {{ producto.nombre }}</p>
+          <p><strong>Tipo:</strong> {{ producto.tipo }}</p>
+          <p><strong>Talle:</strong> {{ producto.talle }}</p>
+          <p><strong>Precio inicial:</strong> ${{ producto.precio_inicial }}</p>
+          <p><strong>Precio final:</strong> ${{ producto.precio_final }}</p>
+          <p v-if="producto.descripcion"><strong>Descripción:</strong> {{ producto.descripcion }}</p>
+        </div>
+
+        <button
+          @click="registrarVenta(producto)"
+          class="bg-blue-600 text-white mt-4 py-2 rounded hover:bg-blue-700 transition"
+        >
+          Registrar venta
+        </button>
+      </li>
+    </ul>
+
+    <!-- ➕ Botón flotante -->
     <button
-      class="
-        bg-blue-800
-        text-white
-        fixed
-        bottom-6
-        right-6
-        w-14
-        h-14
-        flex
-        items-center
-        justify-center
-        rounded-full 
-        shadow-lg
-        text-2xl
-      "
-      @click="abrirFormulario">
+      class="bg-blue-800 text-white fixed bottom-6 right-6 w-14 h-14 flex items-center justify-center rounded-full shadow-lg text-2xl hover:bg-blue-900 transition"
+      @click="mostrarModal = true"
+    >
       +
     </button>
 
-    <div v-if="mostrarFormulario" class="mb-4 border p-4 rounded shadow w-full">
-      <h3 class="mb-2 font-bold text-lg">Agregar nuevo producto</h3>
-      <div class="mb-2">
-        <label class="block mb-1">Nombre:</label>
+    <!-- 🪟 Modal -->
+    <div
+      v-if="mostrarModal"
+      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+    >
+      <div class="bg-white p-6 rounded-lg w-[400px] shadow-lg">
+        <h2 class="text-xl font-bold mb-4">Agregar nuevo producto</h2>
+
         <input
           v-model="nuevoProducto.nombre"
-          type="text"
-          class="border rounded w-full p-1"
+          placeholder="Nombre del producto"
+          class="border p-2 rounded mb-2 w-full"
         />
-      </div>
-      <div class="mb-2">
-        <label class="block mb-1">Talle:</label>
-        <input
-          v-model="nuevoProducto.talle"
-          type="text"
-          class="border rounded w-full p-1"
-        />
-      </div>
-      <div class="mb-2">
-        <label class="block mb-1">Tipo:</label>
+
         <input
           v-model="nuevoProducto.tipo"
-          type="text"
-          class="border rounded w-full p-1"
+          placeholder="Tipo (Ej: Remera, Pantalón)"
+          class="border p-2 rounded mb-2 w-full"
         />
-      </div>
-      <div class="mb-2">
-        <label class="block mb-1">Precio Inicial:</label>
+
         <input
-          v-model="nuevoProducto.precioInicial"
-          type="text"
-          class="border rounded w-full p-1"
+          v-model="nuevoProducto.talle"
+          placeholder="Talle (Ej: S, M, L, XL)"
+          class="border p-2 rounded mb-2 w-full"
         />
-      </div>
-      <div class="mb-2">
-        <label class="block mb-1">Precio de Venta:</label>
+        
+        <label class="block text-sm font-medium mb-1">Precio Inicial</label>
         <input
-          v-model="nuevoProducto.precioVenta"
-          type="text"
-          class="border rounded w-full p-1"
+          v-model.number="nuevoProducto.precio_inicial"
+          placeholder="Precio inicial"
+          type="number"
+          class="border p-2 rounded mb-2 w-full"
         />
-      </div>
-      <div class="mb-2">
-        <label class="block mb-1">Proveedor:</label>
+        
+        <label class="block text-sm font-medium mb-1">Precio Final</label>
         <input
-          v-model="nuevoProducto.proveedor"
-          type="text"
-          class="border rounded w-full p-1"
+          v-model.number="nuevoProducto.precio_final"
+          placeholder="Precio final"
+          type="number"
+          class="border p-2 rounded mb-2 w-full"
         />
-      </div>
-      <div class="mb-2">
-        <label class="block mb-1">Descripción:</label>
-        <input
+
+        <textarea
           v-model="nuevoProducto.descripcion"
-          type="text"
-          class="border rounded w-full p-1"
-        />
-      </div>
-      <div class="mb-2">
-        <label class="block mb-1">Imagen:</label>
-        <input type="file" @change="manejarImagen" accept="image/*" />
-        <div v-if="nuevoProducto.imagenUrl" class="mt-2">
-          <img
-            :src="nuevoProducto.imagenUrl"
-            alt="Preview imagen"
-            class="max-h-24"
-          />
+          placeholder="Descripción (opcional)"
+          class="border p-2 rounded mb-4 w-full"
+          rows="3"
+        ></textarea>
+
+        <div class="flex justify-between">
+          <button
+            @click="registrarProducto"
+            class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+          >
+            Registrar producto
+          </button>
+          <button
+            @click="cerrarModal"
+            class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500 transition"
+          >
+            Cancelar
+          </button>
         </div>
-      </div>
-      <div class="flex gap-2 mt-4">
-        <button
-          class="bg-blue-600 text-white px-4 py-2 rounded"
-          @click="agregarProducto"
-        >
-          Agregar
-        </button>
-        <button
-          class="bg-blue-900 hover:bg-gray-400 text-white px-4 py-2 rounded"
-          @click="cancelar"
-        >
-          Cancelar
-        </button>
       </div>
     </div>
 
-    <!-- 🔹 Cartel cuando no hay productos -->
-    <div
-      v-if="store.productos.length === 0"
-      class="w-full h-[50vh] flex items-center justify-center text-gray-500 text-xl"
-    >
-      Todavía no hay productos añadidos...
-    </div>
-
-    <ul v-else class="w-full">
-      <li
-        v-for="(producto, index) in store.productos"
-        :key="index"
-        class="border-b py-2 flex items-center gap-4"
-      >
-        <div v-if="producto.imagenUrl">
-          <img
-            :src="producto.imagenUrl"
-            alt="Imagen producto"
-            class="max-h-16"
-          />
-        </div>
-        <div>
-          <p><strong>Nombre:</strong> {{ producto.nombre }}</p>
-          <p><strong>Talle:</strong> {{ producto.talle }}</p>
-          <p><strong>Tipo:</strong> {{ producto.tipo }}</p>
-        </div>
-      </li>
-    </ul>
   </div>
 </template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import instanciaAxios from '../api/api'
+
+// Estado
+const productos = ref([])
+const mostrarModal = ref(false)
+const nuevoProducto = ref({
+  nombre: '',
+  tipo: '',
+  talle: '',
+  precio_inicial: 0,
+  precio_final: 0,
+  descripcion: ''
+})
+
+// Cargar productos
+const cargarProductos = async () => {
+  try {
+    const respuesta = await instanciaAxios.get('/productos')
+    productos.value = respuesta.data
+  } catch (error) {
+    console.error('Error al cargar productos:', error)
+  }
+}
+
+// Registrar producto
+const registrarProducto = async () => {
+  if (!nuevoProducto.value.nombre || !nuevoProducto.value.tipo || !nuevoProducto.value.talle ||
+      nuevoProducto.value.precio_inicial <= 0 || nuevoProducto.value.precio_final <= 0) {
+    alert('Completa todos los campos obligatorios correctamente.')
+    return
+  }
+
+  try {
+    await instanciaAxios.post('/productos', nuevoProducto.value)
+    await cargarProductos()
+    cerrarModal()
+    nuevoProducto.value = {
+      nombre: '',
+      tipo: '',
+      talle: '',
+      precio_inicial: 0,
+      precio_final: 0,
+      descripcion: ''
+    }
+  } catch (error) {
+    console.error('Error al registrar producto:', error)
+    alert('Error al registrar producto ❌')
+  }
+}
+
+// Registrar venta
+const registrarVenta = async (producto) => {
+  const cantidad = prompt(`¿Cuántas unidades de "${producto.nombre}" vendiste?`)
+  const fecha = prompt('¿Fecha de la venta? (YYYY-MM-DD)')
+
+  if (!cantidad || !fecha) return
+
+  try {
+    await instanciaAxios.post('/ventas', {
+      producto_id: producto.id,
+      cantidad: Number(cantidad),
+      fecha,
+    })
+    alert('Venta registrada correctamente ✅')
+    await cargarProductos()
+  } catch (error) {
+    alert('Error al registrar venta ❌')
+    console.error(error)
+  }
+}
+
+// Cerrar modal
+const cerrarModal = () => {
+  mostrarModal.value = false
+}
+
+onMounted(cargarProductos)
+</script>

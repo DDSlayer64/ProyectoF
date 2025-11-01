@@ -1,7 +1,7 @@
 <template>
   <div class="h-[80vh] w-[95vw] flex flex-col items-end justify-start p-4">
 
-    <!-- 🚨 Cartel si no hay productos -->
+    <!-- Cartel si no hay productos -->
     <div
       v-if="productos.length === 0"
       class="text-center mt-8 bg-yellow-200 border border-yellow-400 text-yellow-800 p-4 rounded-lg w-full"

@@ -41,7 +41,7 @@ const router = createRouter(
             },
             {
                 path:"/notificaciones",
-                component: Notificaciones,
+                component: () => import('../views/Notificaciones.vue'),
                 name: 'notificaciones'
             },
             {
